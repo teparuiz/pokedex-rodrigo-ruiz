@@ -1,0 +1,16 @@
+.pokemon_view {
+    background-color: rgb(31, 200, 83);
+    align-items: center;
+    justify-content: center;
+    color: white;
+    height: 50px; /* Establecer una altura de 100px */
+    width: 100%; /* Establecer un ancho del 100% */
+  }
+  
+  .pokemon_info {
+    border: 1px solid #000;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }

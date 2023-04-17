@@ -22,7 +22,7 @@ function Galery(props) {
 
   return (
     <div>
-       <div className={style.pokemon_view}>
+      <div className={style.pokemon_view}>
         <div id="carouselExample" className="carousel slide">
           <div className="carousel-inner">
             <div

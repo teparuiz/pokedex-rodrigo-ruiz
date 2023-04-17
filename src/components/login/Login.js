@@ -1,21 +1,20 @@
-import React, {useState} from "react";
-import {Link, useNavigate  } from 'react-router-dom';
-import App from '../../App'
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import App from "../../App";
 
 const Login = (props) => {
-  const {isLogged, setIsLogged } = props
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const navigate = useNavigate()
+  const { isLogged, setIsLogged } = props;
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  
   const login = (e) => {
     e.preventDefault();
     const storedEmail = localStorage.getItem("email");
     const storedPassword = localStorage.getItem("password");
-  
+
     const itsLogin = email === storedEmail && password === storedPassword;
-      if (itsLogin) {
+    if (itsLogin) {
       setIsLogged(true);
       navigate("/");
       alert("Inicio de sesión exitoso");

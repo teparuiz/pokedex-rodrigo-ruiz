@@ -36,7 +36,10 @@ function Card(props) {
                   {item.type.name}
                 </p>
               ))}
-              <button className="btn btn-secondary mr-2" onClick={() => getShiny()}>
+              <button
+                className="btn btn-secondary mr-2"
+                onClick={() => getShiny()}
+              >
                 Shiny
               </button>
             </div>

@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Card from '../Card/Card'
-import InfiniteScroll from 'react-infinite-scroll-component';
+import Card from "../Card/Card";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 function Home(props) {
-  const {itsLogged = false} = props
+  const { itsLogged = false } = props;
   const [pokemon, setPokemon] = useState([]);
-  const [scroll, setScroll] = useState(100)
+  const [scroll, setScroll] = useState(100);
   const [limit, setLimit] = useState(5);
   const [pokemonId, setPokemonId] = useState([]);
   const [details, setDetails] = useState({ data: false });
   const [searchPokemon, setSearchPokemon] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [pokeCard, setPokeCard] = useState(false)
+  const [pokeCard, setPokeCard] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
-  const [shiny, setShiny] = useState([])
-  const [scrollPokemon, setScrollPokemon] = useState([])
-  const [saveScrollPokemon, setSaveScrollPokemon] = useState([])
+  const [shiny, setShiny] = useState([]);
+  const [scrollPokemon, setScrollPokemon] = useState([]);
+  const [saveScrollPokemon, setSaveScrollPokemon] = useState([]);
 
   const _getPokemon = async (page) => {
     try {
@@ -42,76 +42,79 @@ function Home(props) {
     }
   };
 
-const hasMorePokemon = async () =>{
-  try {
-    const newOffSet = scroll
-    const response = await fetch(
-      `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${newOffSet}`
-    );
-    const data = await response.json();
-    setScrollPokemon(data.results);
-    const pokemonUrls = data.results.map(
-      (item) => `https://pokeapi.co/api/v2/pokemon/${item.name}`
-    );
-    const pokemonResponses = await Promise.all(
-      pokemonUrls.map((url) => fetch(url))
-    );
-    const pokemonData = await Promise.all(
-      pokemonResponses.map((response) => response.json())
-    );
-    setSaveScrollPokemon(pokemonData);
-   } catch (error) {
-    console.error("Error al obtener los datos de los Pokemon", error);
-  }
+  const hasMorePokemon = async () => {
+    try {
+      const newOffSet = scroll;
+      const response = await fetch(
+        `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${newOffSet}`
+      );
+      const data = await response.json();
+      setScrollPokemon(data.results);
+      const pokemonUrls = data.results.map(
+        (item) => `https://pokeapi.co/api/v2/pokemon/${item.name}`
+      );
+      const pokemonResponses = await Promise.all(
+        pokemonUrls.map((url) => fetch(url))
+      );
+      const pokemonData = await Promise.all(
+        pokemonResponses.map((response) => response.json())
+      );
+      setSaveScrollPokemon(pokemonData);
+    } catch (error) {
+      console.error("Error al obtener los datos de los Pokemon", error);
+    }
+  };
 
-}
+  const paginator = () => {
+    let pages = [];
 
+    // Páginas iniciales
+    for (let i = 1; i <= Math.min(3, totalPages); i++) {
+      pages.push(
+        <button
+          key={i}
+          onClick={() => setCurrentPage(i)}
+          className={`btn btn-outline-secondary ${
+            currentPage === i ? "active" : ""
+          }`}
+        >
+          {i}
+        </button>
+      );
+    }
 
+    // Separador si hay más de 3 páginas
+    if (totalPages > 3) {
+      pages.push(
+        <span key="separator1" className="btn btn-outline-secondary">
+          ...
+        </span>
+      );
+    }
 
+    // Páginas restantes de 20 en 20
+    for (let i = 20; i <= Math.min(22, totalPages); i++) {
+      pages.push(
+        <button
+          key={i}
+          onClick={() => setCurrentPage(i)}
+          className={`btn btn-outline-secondary ${
+            currentPage === i ? "active" : ""
+          }`}
+        >
+          {i}
+        </button>
+      );
+    }
 
-const paginator = () => {
-  let pages = [];
+    return <div>{pages}</div>;
+  };
 
-  // Páginas iniciales
-  for (let i = 1; i <= Math.min(3, totalPages); i++) {
-    pages.push(
-      <button
-        key={i}
-        onClick={() => setCurrentPage(i)}
-        className={`btn btn-outline-secondary ${currentPage === i ? "active" : ""}`}
-      >
-        {i}
-      </button>
-    );
-  }
-
-  // Separador si hay más de 3 páginas
-  if (totalPages > 3) {
-    pages.push(<span key="separator1" className="btn btn-outline-secondary">...</span>);
-  }
-
-  // Páginas restantes de 20 en 20
-  for (let i = 20; i <= Math.min(22, totalPages); i++) {
-    pages.push(
-      <button
-        key={i}
-        onClick={() => setCurrentPage(i)}
-        className={`btn btn-outline-secondary ${currentPage === i ? "active" : ""}`}
-      >
-        {i}
-      </button>
-    );
-  }
-
-  return <div>{pages}</div>;
-};
-   
-  
   useEffect(() => {
     _getPokemon(currentPage);
   }, [currentPage]);
 
-   useEffect(() => {
+  useEffect(() => {
     hasMorePokemon();
   }, []);
 
@@ -162,12 +165,11 @@ const paginator = () => {
                 .map((item, index) => (
                   <tr key={index}>
                     <td scope="row">
-                      <Link to={`/details/${item.name}`}>
-                      {item.id}
-                      </Link></td>
+                      <Link to={`/details/${item.name}`}>{item.id}</Link>
+                    </td>
                     <td scope="row">
-                      <Link to={`/details/${item.name}`}>
-                        {item.name}</Link></td>
+                      <Link to={`/details/${item.name}`}>{item.name}</Link>
+                    </td>
                     <td scope="row">
                       {!shiny[index] ? (
                         <img
@@ -204,51 +206,49 @@ const paginator = () => {
                           });
                         }}
                       >
-                        {shiny[index] ? 'Normal' : 'Shiny'}
+                        {shiny[index] ? "Normal" : "Shiny"}
                       </button>
                     </td>
                   </tr>
                 ))}
             </tbody>
           </table>
-         ) : ( 
-          
+        ) : (
           <InfiniteScroll
-          dataLength={pokemonId.length}
-    next={hasMorePokemon}
-    style={{ display: 'flex', flexDirection: 'column-reverse' }} //To put endMessage and loader to the top.
-    inverse={true} //
-    hasMore={true}
-    loader={<h4>Loading...</h4>}
-    scrollableTarget="scrollableDiv"
-         >
-        <div className="container-sm">
-        <div className="row">
-          {pokemonId
-            .filter((item) => item.name.includes(searchPokemon.toLowerCase()))
-            .map((item, index) => (
-              <div key={item.id} className="col-xs-3 col-md-3 col-3"> 
-                <Card
-                  data={item}
-                  shiny={shiny[index]}
-                  getShiny={() => {
-                    setShiny((prevShinyList) => {
-                      const newShinyList = [...prevShinyList];
-                      newShinyList[index] = !prevShinyList[index];
-                      return newShinyList;
-                    });
-                  }}
-                />
+            dataLength={pokemonId.length}
+            next={hasMorePokemon}
+            style={{ display: "flex", flexDirection: "column-reverse" }} //To put endMessage and loader to the top.
+            inverse={true} //
+            hasMore={true}
+            loader={<h4>Loading...</h4>}
+            scrollableTarget="scrollableDiv"
+          >
+            <div className="container-sm">
+              <div className="row">
+                {pokemonId
+                  .filter((item) =>
+                    item.name.includes(searchPokemon.toLowerCase())
+                  )
+                  .map((item, index) => (
+                    <div key={item.id} className="col-xs-3 col-md-3 col-3">
+                      <Card
+                        data={item}
+                        shiny={shiny[index]}
+                        getShiny={() => {
+                          setShiny((prevShinyList) => {
+                            const newShinyList = [...prevShinyList];
+                            newShinyList[index] = !prevShinyList[index];
+                            return newShinyList;
+                          });
+                        }}
+                      />
+                    </div>
+                  ))}
               </div>
-            ))
-          }
-        </div>
-      </div>
-        </InfiniteScroll>
-        
-         
+            </div>
+          </InfiniteScroll>
         )}
-       {!pokeCard ? ( <div className="text-center">{paginator()}</div>) : null }
+        {!pokeCard ? <div className="text-center">{paginator()}</div> : null}
       </div>
     </div>
   );

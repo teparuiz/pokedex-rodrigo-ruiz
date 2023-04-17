@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Card from "../Card/Card";
 import InfiniteScroll from "react-infinite-scroll-component";
+import Pagination from "../Pagination/Pagination";
 
 function Home(props) {
   const { itsLogged = false } = props;
@@ -65,51 +66,6 @@ function Home(props) {
     }
   };
 
-  const paginator = () => {
-    let pages = [];
-
-    // Páginas iniciales
-    for (let i = 1; i <= Math.min(3, totalPages); i++) {
-      pages.push(
-        <button
-          key={i}
-          onClick={() => setCurrentPage(i)}
-          className={`btn btn-outline-secondary ${
-            currentPage === i ? "active" : ""
-          }`}
-        >
-          {i}
-        </button>
-      );
-    }
-
-    // Separador si hay más de 3 páginas
-    if (totalPages > 3) {
-      pages.push(
-        <span key="separator1" className="btn btn-outline-secondary">
-          ...
-        </span>
-      );
-    }
-
-    // Páginas restantes de 20 en 20
-    for (let i = 20; i <= Math.min(22, totalPages); i++) {
-      pages.push(
-        <button
-          key={i}
-          onClick={() => setCurrentPage(i)}
-          className={`btn btn-outline-secondary ${
-            currentPage === i ? "active" : ""
-          }`}
-        >
-          {i}
-        </button>
-      );
-    }
-
-    return <div>{pages}</div>;
-  };
-
   useEffect(() => {
     _getPokemon(currentPage);
   }, [currentPage]);
@@ -168,7 +124,9 @@ function Home(props) {
                       <Link to={`/details/${item.name}`}>{item.id}</Link>
                     </td>
                     <td scope="row">
-                      <Link to={`/details/${item.name}`}>{item.name}</Link>
+                      <Link to={`/details/${item.name}`}>
+                        {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
+                      </Link>
                     </td>
                     <td scope="row">
                       {!shiny[index] ? (
@@ -187,12 +145,18 @@ function Home(props) {
                     </td>
                     <td scope="row">
                       {item.types.map((type, index) => (
-                        <span key={index}>{type.type.name}</span>
+                        <span key={index}>
+                          {type.type.name.charAt(0).toUpperCase() +
+                            type.type.name.slice(1)}
+                        </span>
                       ))}
                     </td>
                     <td scope="row">
                       {item.abilities.map((ability, index) => (
-                        <span key={index}>{ability.ability.name}</span>
+                        <span key={index}>
+                          {ability.ability.name.charAt(0).toUpperCase() +
+                            ability.ability.name.slice(1)}
+                        </span>
                       ))}
                     </td>
                     <td>
@@ -248,7 +212,13 @@ function Home(props) {
             </div>
           </InfiniteScroll>
         )}
-        {!pokeCard ? <div className="text-center">{paginator()}</div> : null}
+        {!pokeCard ? (
+          <Pagination
+            totalPages={totalPages}
+            setCurrentPage={setCurrentPage}
+            currentPage={currentPage}
+          />
+        ) : null}
       </div>
     </div>
   );

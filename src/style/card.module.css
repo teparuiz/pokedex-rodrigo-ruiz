@@ -1,0 +1,14 @@
+.container_pokemon {
+    display: none;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+    
+}
+
+.card_container img {
+    background: gray;
+    width: 200px;
+    height: 150px;
+    margin-top: 10px;
+}

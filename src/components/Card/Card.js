@@ -1,13 +1,16 @@
 import React from "react";
+import style from "../../style/card.module.css";
+import { Link } from "react-router-dom";
 
 function Card(props) {
   const { name, sprites, types, abilities } = props.data;
   const { getShiny, shiny } = props;
 
   return (
-    <div className="container">
-      <div className="card mt-2">
-        {!shiny ? (
+    <div>
+      <div className={style.card_container}>
+     <div className="card mt-2">
+     <Link to={`/details/${name}`}> {!shiny ? (
           <img
             src={sprites.front_default}
             alt="Front Default"
@@ -19,20 +22,20 @@ function Card(props) {
             alt="Front Shiny"
             className="card-img-top w-50 mx-auto"
           />
-        )}
+        )} </Link>
         <div className="card-body d-flex flex-column align-items-center">
-          <h5 className="card-title text-center">{name}</h5>
+          <h5 className="card-title text-center">  {name.charAt(0).toUpperCase() + name.slice(1)}</h5>
           <div className="row">
             <div className="col-12 d-flex justify-content-between">
-              {abilities.map((item) => (
-                <p key={item.id} className="card-text">
+              {abilities.map((item, index) => (
+                <p key={index} className="card-text">
                   {item.ability.name}
                 </p>
               ))}
             </div>
             <div className="col-12 d-flex justify-content-between">
-              {types.map((item) => (
-                <p key={item.id} className="card-text">
+              {types.map((item, index) => (
+                <p key={index} className="card-text">
                   {item.type.name}
                 </p>
               ))}
@@ -45,8 +48,10 @@ function Card(props) {
             </div>
           </div>
         </div>
-      </div>
+      </div> 
     </div>
+    </div>
+    
   );
 }
 

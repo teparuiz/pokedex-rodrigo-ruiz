@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import style from "../../style/components/details.module.css";
 import { useParams } from "react-router-dom";
+import Galery from "../Galery/Galery";
 
 function Details(props) {
   const [uniqPokemon, setUniqPokemon] = useState([]);
@@ -28,55 +29,17 @@ function Details(props) {
         <div className="row">
           <div className="col-12">
             <div className="container mb-2">
-              <div className={style.pokemon_view}>
-                <div id="carouselExample" className="carousel slide">
-                  <div className="carousel-inner">
-                    <div className="carousel-item active text-center">
-                      <div className="d-block w-100">
-                        <h1> Galería de Sprites </h1>
-                      </div>
-                    </div>
-                    <div className="carousel-item text-center">
-                      <div className="d-block w-100">
-                        <h1> HOla </h1>
-                      </div>
-                    </div>
-                  </div>
-                  <button
-                    className="carousel-control-prev"
-                    type="button"
-                    data-bs-target="#carouselExample"
-                    data-bs-slide="prev"
-                  >
-                    <span
-                      className="carousel-control-prev-icon"
-                      aria-hidden="true"
-                    ></span>
-                    <span className="visually-hidden">Previous</span>
-                  </button>
-                  <button
-                    className="carousel-control-next"
-                    type="button"
-                    data-bs-target="#carouselExample"
-                    data-bs-slide="next"
-                  >
-                    <span
-                      className="carousel-control-next-icon"
-                      aria-hidden="true"
-                    ></span>
-                    <span className="visually-hidden">Next</span>
-                  </button>
-                </div>
-              </div>
+              <Galery uniqPokemon={uniqPokemon} />
               <div className="row mt-2">
                 <div className="col-7">
                   <div className={style.pokemon_info}>
-                    <p>{uniqPokemon.name}</p>
+                    <p>{uniqPokemon?.name}</p>
                     {uniqPokemon &&
                       uniqPokemon?.types?.map((item) => (
                         <p>{item.type.name}</p>
                       ))}
                     <p>Descripción</p>
+                    <p> sgwsmsmbvmslfbvmlsmblsfdmbmfsmsfmvspfsv</p>
                   </div>
                 </div>
 
@@ -84,17 +47,17 @@ function Details(props) {
                   <div className={style.pokemon_info}>
                     <p>Movimientos</p>
                     <div>
-                      <span>Movimiento 1</span>
-                      <div className="row">
-                        <div className="col-4">
-                          {uniqPokemon &&
-                            uniqPokemon?.moves?.map((item) => (
-                              <p>{item.move.name}</p>
-                            ))}
-                        </div>
-                        <div className="col-4">Precisión</div>
-                        <div className="col-4">Tipo</div>
-                      </div>
+                      {uniqPokemon &&
+                        uniqPokemon?.moves?.slice(0, 4).map((item) => (
+                          <div key={item.move.name}>
+                            <span>{item.move.name}</span>
+                            <div className="row">
+                              <div className="col-4"></div>
+                              <div className="col-4">Precisión</div>
+                              <div className="col-4">Tipo</div>
+                            </div>
+                          </div>
+                        ))}
                     </div>
                   </div>
                 </div>

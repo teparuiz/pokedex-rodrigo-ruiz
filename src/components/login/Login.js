@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import App from "../../App";
-
+import style from "../../style/login.module.css";
 const Login = (props) => {
   const { isLogged, setIsLogged } = props;
   const [email, setEmail] = useState("");
@@ -24,18 +23,18 @@ const Login = (props) => {
   };
 
   return (
-    <div>
-      <div className="flex flex-col w-full max-w-md px-4 py-8 rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10 text-center">
+    <div className={style.login}>
+      <div className="flex flex-col w-full max-w-md text-center">
         <div className="self-center mb-6 text-xl font-light text-black sm:text-2xl dark:text-white">
-          Pokedex
+          <h1> Pokédex </h1>
         </div>
 
-        <div className="mt-8">
-          <form action="#" autoComplete="off">
-            <div className="flex flex-col mb-2">
-              <div className="flex relative ">
+        <div className="mt-2">
+          <form autoComplete="off">
+            <div className="flex flex-col mb-4">
+              <div className="col-6">
                 <input
-                  type="text"
+                  type="email"
                   id="sign-in-email"
                   name="Correo"
                   value={email}
@@ -43,11 +42,13 @@ const Login = (props) => {
                     setEmail(e.target.value);
                   }}
                   placeholder="Correo electrónico"
+                  pattern=".+@globex\.com"
+                  required
                 />
               </div>
             </div>
-            <div className="flex flex-col mb-6">
-              <div className="flex relative ">
+            <div className="flex flex-col mb-4">
+              <div className="col-6">
                 <input
                   type="password"
                   id="sign-in-email"
@@ -57,11 +58,19 @@ const Login = (props) => {
                     setPassword(e.target.value);
                   }}
                   placeholder="Contraseña"
+                  required
                 />
               </div>
             </div>
-            <div className="flex mt-2">
-              <button type="submit" className="btn btn-primary" onClick={login}>
+            <div
+              className="flex mt-
+            4"
+            >
+              <button
+                type="submit"
+                className="btn btn-secondary"
+                onClick={login}
+              >
                 Iniciar sesión
               </button>
               <div>

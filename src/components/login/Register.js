@@ -9,21 +9,33 @@ function Register(props) {
   const [nickName, setNickName] = useState("");
   const navigate = useNavigate();
 
-  const register = () => {
-    // Guardar los datos del estado en localStorage
-    localStorage.setItem("password", password);
-    localStorage.setItem("email", email);
-    localStorage.setItem("name", name);
-    localStorage.setItem("nickName", nickName);
-    setIsLogged(false);
-    navigate("/login");
+  const ValidEmail = (email) => {
+    const valid = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
+    if (valid.test(email)) {
+      return true;
+    } else {
+      alert("Email no válido");
+    }
   };
 
+  const register = () => {
+    // Guardar los datos del estado en localStorage
+    if (ValidEmail(email)) {
+      localStorage.setItem("password", password);
+      localStorage.setItem("email", email);
+      localStorage.setItem("name", name);
+      localStorage.setItem("nickName", nickName);
+      setIsLogged(false);
+      navigate("/login");
+    } else {
+      alert("Revisa tus datos");
+    }
+  };
   return (
     <>
       <div className="flex flex-col w-full max-w-md px-4 py-8 rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10 text-center">
         <div className="self-center mb-6 text-xl font-light text-black sm:text-2xl dark:text-white">
-          Registrate
+          <h2> Registrate </h2>
         </div>
         <form autoComplete="off">
           <div className="flex flex-col mb-2">
@@ -57,14 +69,17 @@ function Register(props) {
           <div className="flex flex-col mb-2">
             <div className="flex relative ">
               <input
-                type="text"
-                id="sign-in-email"
+                type="email"
+                id="email"
                 name="Correo"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
                 placeholder="Correo electrónico"
+                pattern=".+@globex\.com"
+                size="30"
+                required
               />
             </div>
           </div>
@@ -79,13 +94,14 @@ function Register(props) {
                   setPassword(e.target.value);
                 }}
                 placeholder="Contraseña"
+                required
               />
             </div>
           </div>
           <div className="flex w-full mt-2">
             <button
               type="submit"
-              className="btn btn-primary"
+              className="btn btn-secondary"
               onClick={register}
             >
               Registar

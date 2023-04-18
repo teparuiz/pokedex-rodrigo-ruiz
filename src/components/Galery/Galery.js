@@ -55,7 +55,7 @@ function Galery(props) {
           >
             <div className="d-block w-100">
               <img
-                src={uniqPokemon?.sprites?.other.home.front_default}
+                src={uniqPokemon?.sprites?.other?.home?.front_default}
                 alt={uniqPokemon.sprites}
               />
             </div>
@@ -67,7 +67,7 @@ function Galery(props) {
           >
             <div className="d-block w-100">
               <img
-                src={uniqPokemon?.sprites?.other.dreamworld.front_default}
+                src={uniqPokemon?.sprites?.other?.dreamworld?.front_default}
                 alt={uniqPokemon.sprites}
               />
             </div>

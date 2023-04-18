@@ -35,11 +35,11 @@ function Details(props) {
           <div className="d-flex flex-column col-7">
             <div className={style.pokemon_container}>
               <div className="d-flex align-items-center justify-content-between">
-                <p className="align-middle"><b>{uniqPokemon?.name.charAt(0).toUpperCase() + uniqPokemon?.name.slice(1)}</b></p>
+                <p className="align-middle"><b>{uniqPokemon?.name?.charAt(0).toUpperCase() + uniqPokemon?.name?.slice(1)}</b></p>
                 {uniqPokemon &&
                   uniqPokemon?.types?.map((item, index) => (
                     <span key={index} className={`${style.type} align-middle`}>
-                      {item.type.name.charAt(0).toUpperCase() + item.type.name.slice(1)}
+                      {item.type?.name?.charAt(0).toUpperCase() + item.type?.name?.slice(1)}
                     </span>
                   ))}
               </div>
@@ -51,7 +51,7 @@ function Details(props) {
               {uniqPokemon &&
                 uniqPokemon?.abilities?.map((item, index) => (
                   <span key={index} className={`${style.type} align-middle d-flex justify-content-between align-items-center`}>
-                    {item.ability.name.charAt(0).toUpperCase() + item.ability.name.slice(1)}
+                    {item.ability?.name?.charAt(0).toUpperCase() + item.ability?.name?.slice(1)}
                   </span>
                 ))}
             </div>
@@ -65,7 +65,7 @@ function Details(props) {
                   uniqPokemon?.moves?.slice(0, 10).map((item) => (
                     <div key={item.move.name}>
                       <span>
-                        <b>{item.move.name.charAt(0).toUpperCase() + item.move.name.slice(1)}</b>
+                        <b>{item.move?.name?.charAt(0).toUpperCase() + item.move?.name?.slice(1)}</b>
                       </span>
                       <div className="row">
                         <div className="col-4">HP: {}</div>

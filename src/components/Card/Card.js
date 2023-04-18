@@ -48,7 +48,7 @@ function Card(props) {
                   className="btn btn-secondary mr-2"
                   onClick={() => getShiny()}
                 >
-                  {!shiny ? "Normal" : "Shiny"}
+                  Shiny 
                 </button>
               </div>
             </div>

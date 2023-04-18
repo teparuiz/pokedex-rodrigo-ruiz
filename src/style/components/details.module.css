@@ -6,12 +6,13 @@
   color: white;
   height: 200px;
   /* Establecer una altura de 100px */
-  width: 50%;
+  width: 70%;
   /* Establecer un ancho del 100% */
 }
 
 .pokemon_view img {
-  width: 200px;
+  
+  width: 150px;
   height: 200px;
   justify-content: center;
 }

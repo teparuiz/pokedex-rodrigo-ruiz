@@ -51,7 +51,7 @@ const Login = (props) => {
               <div className="col-6">
                 <input
                   type="password"
-                  id="sign-in-email"
+                  id="sign-in-password"
                   name="Contraseña"
                   value={password}
                   onChange={(e) => {

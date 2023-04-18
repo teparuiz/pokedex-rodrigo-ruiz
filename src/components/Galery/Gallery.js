@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import style from "../../style/components/details.module.css";
 
-function Galery(props) {
+function Gallery(props) {
   const { uniqPokemon } = props;
   const [index, setIndex] = useState(0);
 
   let hasPrev = index > 0;
   let hasNext = index < uniqPokemon?.sprites?.front_default.length - 1;
+
+  if (!hasNext && index !== 0) {
+    // Si llega al último índice, reiniciar la galería
+    setIndex(0);
+    hasNext = true;
+  }
 
   function handlePrevClick() {
     if (hasPrev) {
@@ -20,58 +26,39 @@ function Galery(props) {
     }
   }
 
+  const images = [
+    { src: uniqPokemon?.sprites?.front_default, alt: uniqPokemon.sprites },
+    { src: uniqPokemon?.sprites?.front_shiny, alt: uniqPokemon.sprites },
+    {
+      src: uniqPokemon?.sprites?.other?.home?.front_default,
+      alt: uniqPokemon.sprites,
+    },
+    {
+      src: uniqPokemon?.sprites?.other?.dreamworld?.front_default,
+      alt: uniqPokemon.sprites,
+    },
+  ];
+
   return (
     <div className={style.pokemon_view}>
       <div id="carouselExample" className="carousel slide">
         <div className="carousel-inner">
-          <div
-            className={`carousel-item ${
-              index === 0 ? "active" : ""
-            } text-center`}
-          >
-            <div className="d-block w-100">
-              <img
-                src={uniqPokemon?.sprites?.front_default}
-                alt={uniqPokemon.sprites}
-              />
+          {images.map((image, i) => (
+            <div
+              key={i}
+              className={`carousel-item ${
+                index === i ? "active" : ""
+              } text-center`}
+            >
+              <div className="d-block w-100">
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  style={{ objectFit: "contain" }}
+                />
+              </div>
             </div>
-          </div>
-          <div
-            className={`carousel-item ${
-              index === 1 ? "active" : ""
-            } text-center`}
-          >
-            <div className="d-block w-100">
-              <img
-                src={uniqPokemon?.sprites?.front_shiny}
-                alt={uniqPokemon.sprites}
-              />
-            </div>
-          </div>
-          <div
-            className={`carousel-item ${
-              index === 0 ? "active" : ""
-            } text-center`}
-          >
-            <div className="d-block w-100">
-              <img
-                src={uniqPokemon?.sprites?.other?.home?.front_default}
-                alt={uniqPokemon.sprites}
-              />
-            </div>
-          </div>
-          <div
-            className={`carousel-item ${
-              index === 0 ? "active" : ""
-            } text-center`}
-          >
-            <div className="d-block w-100">
-              <img
-                src={uniqPokemon?.sprites?.other?.dreamworld?.front_default}
-                alt={uniqPokemon.sprites}
-              />
-            </div>
-          </div>
+          ))}
         </div>
         <button
           className={`${style.carousel_control} carousel-control-prev`}
@@ -106,4 +93,4 @@ function Galery(props) {
   );
 }
 
-export default Galery;
+export default Gallery;

@@ -43,7 +43,31 @@ function Galery(props) {
           >
             <div className="d-block w-100">
               <img
-                src={uniqPokemon?.sprites?.back_default}
+                src={uniqPokemon?.sprites?.front_shiny}
+                alt={uniqPokemon.sprites}
+              />
+            </div>
+          </div>
+          <div
+            className={`carousel-item ${
+              index === 0 ? "active" : ""
+            } text-center`}
+          >
+            <div className="d-block w-100">
+              <img
+                src={uniqPokemon?.sprites?.other.home.front_default}
+                alt={uniqPokemon.sprites}
+              />
+            </div>
+          </div>
+          <div
+            className={`carousel-item ${
+              index === 0 ? "active" : ""
+            } text-center`}
+          >
+            <div className="d-block w-100">
+              <img
+                src={uniqPokemon?.sprites?.other.dreamworld.front_default}
                 alt={uniqPokemon.sprites}
               />
             </div>

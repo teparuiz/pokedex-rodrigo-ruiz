@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Card from "../Card/Card";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Pagination from "../Pagination/Pagination";
+import ModalShiny from "../modal/ModalShiny";
 
 function Home(props) {
   const { itsLogged = false } = props;
@@ -16,6 +17,7 @@ function Home(props) {
   const [totalPages, setTotalPages] = useState(0);
   const [shiny, setShiny] = useState([]);
   const [scrollPokemon, setScrollPokemon] = useState([]);
+  // const [openShiny, setOpenShiny] = useState({ visible: false, data: false });
 
   const _getPokemon = async (page) => {
     try {
@@ -227,6 +229,15 @@ function Home(props) {
                       >
                         {shiny[index] ? "Normal" : "Shiny"}
                       </button>
+
+                      {/* <button
+                        className="btn btn-secondary"
+                        onClick={() => {
+                          setOpenShiny({ visible: true, data: item });
+                        }}
+                      >
+                        Shiny
+                      </button> */}
                     </td>
                   </tr>
                 ))}
@@ -280,6 +291,10 @@ function Home(props) {
           />
         ) : null}
       </div>
+      {/* <ModalShiny
+        openShiny={openShiny.visible}
+        data={openShiny.data}
+      /> */}
     </div>
   );
 }

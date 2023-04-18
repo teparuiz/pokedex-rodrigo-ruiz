@@ -139,6 +139,8 @@ function Details(props) {
                 })}
             </div>
           </div>
+          <div>
+          </div>
         </div>
       </div>
     </div>

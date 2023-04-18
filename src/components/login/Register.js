@@ -78,7 +78,6 @@ function Register(props) {
                 }}
                 placeholder="Correo electrónico"
                 pattern=".+@globex\.com"
-                size="30"
                 required
               />
             </div>

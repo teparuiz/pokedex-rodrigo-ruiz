@@ -1,14 +1,27 @@
-.container_pokemon {
-    display: none;
-    align-items: center;
-    width: 200px;
+.card_container img {
+    background: rgb(15, 114, 77);
+    width: 300px;
     height: 200px;
-    
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
 }
 
-.card_container img {
-    background: gray;
-    width: 200px;
-    height: 150px;
-    margin-top: 10px;
+.card_container img:hover {
+    background-color: white;
+}
+
+@media only screen and (max-width: 360px) {
+    .card_container img {
+        background: rgb(15, 114, 77);
+        width: 150px;
+        height: 100px;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .card_container img:hover {
+        background-color: white;
+    }
 }

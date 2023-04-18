@@ -19,6 +19,9 @@ function Home(props) {
   const [scrollPokemon, setScrollPokemon] = useState([]);
   // const [openShiny, setOpenShiny] = useState({ visible: false, data: false });
 
+  // const onClose = ()=> {
+  //   setOpenShiny({visible: false, data: false})
+  // }
   const _getPokemon = async (page) => {
     try {
       const newOffset = (page - 1) * limit;

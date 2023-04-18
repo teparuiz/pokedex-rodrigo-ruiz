@@ -21,64 +21,62 @@ function Galery(props) {
   }
 
   return (
-    <div>
-      <div className={style.pokemon_view}>
-        <div id="carouselExample" className="carousel slide">
-          <div className="carousel-inner">
-            <div
-              className={`carousel-item ${
-                index === 0 ? "active" : ""
-              } text-center`}
-            >
-              <div className="d-block w-100">
-                <img
-                  src={uniqPokemon?.sprites?.front_default}
-                  alt={uniqPokemon.sprites}
-                />
-              </div>
-            </div>
-            <div
-              className={`carousel-item ${
-                index === 1 ? "active" : ""
-              } text-center`}
-            >
-              <div className="d-block w-100">
-                <img
-                  src={uniqPokemon?.sprites?.back_default}
-                  alt={uniqPokemon.sprites}
-                />
-              </div>
+    <div className={style.pokemon_view}>
+      <div id="carouselExample" className="carousel slide">
+        <div className="carousel-inner">
+          <div
+            className={`carousel-item ${
+              index === 0 ? "active" : ""
+            } text-center`}
+          >
+            <div className="d-block w-100">
+              <img
+                src={uniqPokemon?.sprites?.front_default}
+                alt={uniqPokemon.sprites}
+              />
             </div>
           </div>
-          <button
-            className="carousel-control-prev"
-            type="button"
-            onClick={handlePrevClick}
-            disabled={!hasPrev}
-            data-bs-target="#carouselExample"
-            data-bs-slide="prev"
+          <div
+            className={`carousel-item ${
+              index === 1 ? "active" : ""
+            } text-center`}
           >
-            <span
-              className="carousel-control-prev-icon"
-              aria-hidden="true"
-            ></span>
-            <span className="visually-hidden">Previous</span>
-          </button>
-          <button
-            className="carousel-control-next"
-            type="button"
-            onClick={handleNextClick}
-            disabled={!hasNext}
-            data-bs-target="#carouselExample"
-            data-bs-slide="next"
-          >
-            <span
-              className="carousel-control-next-icon"
-              aria-hidden="true"
-            ></span>
-            <span className="visually-hidden">Next</span>
-          </button>
+            <div className="d-block w-100">
+              <img
+                src={uniqPokemon?.sprites?.back_default}
+                alt={uniqPokemon.sprites}
+              />
+            </div>
+          </div>
         </div>
+        <button
+          className={`${style.carousel_control} carousel-control-prev`}
+          type="button"
+          onClick={handlePrevClick}
+          disabled={!hasPrev}
+          data-bs-target="#carouselExample"
+          data-bs-slide="prev"
+        >
+          <span
+            className="carousel-control-prev-icon"
+            aria-hidden="true"
+          ></span>
+          <span className="visually-hidden">Previous</span>
+        </button>
+        <button
+          className={`${style.carousel_control} carousel-control-next`}
+          type="button"
+          onClick={handleNextClick}
+          disabled={!hasNext}
+          data-bs-target="#carouselExample"
+          data-bs-slide="next"
+        >
+          <span
+            className="carousel-control-next-icon"
+            aria-hidden="true"
+          ></span>
+          <span className="visually-hidden">Next</span>
+        </button>
       </div>
     </div>
   );

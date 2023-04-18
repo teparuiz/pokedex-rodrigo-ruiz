@@ -13,6 +13,7 @@ function Details(props) {
         `https://pokeapi.co/api/v2/pokemon/${name}` // Utiliza el valor de name en la URL de la API
       );
       const data = await response.json();
+      console.log(data);
       setUniqPokemon(data);
     } catch (error) {
       console.error("Error al obtener los datos del pokémon", error);
@@ -27,49 +28,53 @@ function Details(props) {
     <div>
       <div className="container">
         <div className="row">
-          <div className="col-12">
-            <div className="container mb-2">
-              <Galery uniqPokemon={uniqPokemon} />
-              <div className="row mt-2">
-                <div className="col-7">
-                  <div className={style.pokemon_info}>
-                    <p>{uniqPokemon?.name}</p>
-                    {uniqPokemon &&
-                      uniqPokemon?.types?.map((item) => (
-                        <p>{item.type.name}</p>
-                      ))}
-                    <p>Descripción</p>
-                    <p> sgwsmsmbvmslfbvmlsmblsfdmbmfsmsfmvspfsv</p>
-                  </div>
-                </div>
+          <div className="col col-12 pt-4 d-flex align-items-center justify-content-center">
+            <Galery uniqPokemon={uniqPokemon} />
+          </div>
+        </div>
+        <div className="d-flex justify-content-between pt-2">
+          <div className="d-flex flex-column col-7">
+            <div className={style.pokemon_container}>
+              <div className="d-flex align-items-center justify-content-between">
+                <p className="align-middle">{uniqPokemon?.name}</p>
+                {uniqPokemon &&
+                  uniqPokemon?.types?.map((item, index) => (
+                    <span key={index} className={`${style.type} align-middle`}>
+                      {item.type.name}
+                    </span>
+                  ))}
+              </div>
+              <p> Descripción: {uniqPokemon?.heigth}</p>
+            </div>
+            <div className={style.pokemon_container}>
+              <p>Habilidades:</p>
+              {uniqPokemon &&
+                uniqPokemon?.abilities?.map((item, index) => (
+                  <span key={index} className={`${style.type} align-middle`}>
+                    {item.ability.name}
+                  </span>
+                ))}
+            </div>
+          </div>
 
-                <div className="col-5">
-                  <div className={style.pokemon_info}>
-                    <p>Movimientos</p>
-                    <div>
-                      {uniqPokemon &&
-                        uniqPokemon?.moves?.slice(0, 4).map((item) => (
-                          <div key={item.move.name}>
-                            <span>{item.move.name}</span>
-                            <div className="row">
-                              <div className="col-4"></div>
-                              <div className="col-4">Precisión</div>
-                              <div className="col-4">Tipo</div>
-                            </div>
-                          </div>
-                        ))}
+          <div className="col-5">
+            <div className={style.pokemon_info}>
+              <p>Movimientos</p>
+              <div>
+                {uniqPokemon &&
+                  uniqPokemon?.moves?.slice(0, 2).map((item) => (
+                    <div key={item.move.name}>
+                      <span>
+                        <b>{item.move.name}</b>
+                      </span>
+                      <div className="row">
+                        <div className="col-4">HP: {}</div>
+                        <div className="col-4">Attack: {}</div>
+                        <div className="col-4">Deffense: {}</div>{" "}
+                      </div>
+                      <div className={style.divider_movements}></div>
                     </div>
-                  </div>
-                </div>
-                <div className="col-7 mt-2">
-                  <div className={style.pokemon_info}>
-                    <p>Habilidades</p>
-                    {uniqPokemon &&
-                      uniqPokemon?.abilities?.map((item) => (
-                        <p>{item.ability.name}</p>
-                      ))}
-                  </div>
-                </div>
+                  ))}
               </div>
             </div>
           </div>

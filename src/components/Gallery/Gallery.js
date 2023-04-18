@@ -4,9 +4,25 @@ import style from "../../style/components/details.module.css";
 function Gallery(props) {
   const { uniqPokemon } = props;
   const [index, setIndex] = useState(0);
+  const images = [
+    { src: uniqPokemon?.sprites?.front_default, alt: uniqPokemon.sprites },
+    { src: uniqPokemon?.sprites?.front_shiny, alt: uniqPokemon.sprites },
+    {
+      src: uniqPokemon?.sprites?.other?.home?.front_default,
+      alt: uniqPokemon.sprites,
+    },
+    {
+      src: uniqPokemon?.sprites?.other?.home?.front_shiny,
+      alt: uniqPokemon.sprites,
+    },
+    {
+      src: uniqPokemon?.sprites?.other?.dream_world?.front_default,
+      alt: uniqPokemon.sprites,
+    },
+  ];
 
   let hasPrev = index > 0;
-  let hasNext = index < uniqPokemon?.sprites?.front_default.length - 1;
+  let hasNext = index < images.length;
 
   if (!hasNext && index !== 0) {
     // Si llega al último índice, reiniciar la galería
@@ -25,19 +41,6 @@ function Gallery(props) {
       setIndex(index + 1);
     }
   }
-
-  const images = [
-    { src: uniqPokemon?.sprites?.front_default, alt: uniqPokemon.sprites },
-    { src: uniqPokemon?.sprites?.front_shiny, alt: uniqPokemon.sprites },
-    {
-      src: uniqPokemon?.sprites?.other?.home?.front_default,
-      alt: uniqPokemon.sprites,
-    },
-    {
-      src: uniqPokemon?.sprites?.other?.dreamworld?.front_default,
-      alt: uniqPokemon.sprites,
-    },
-  ];
 
   return (
     <div className={style.pokemon_view}>

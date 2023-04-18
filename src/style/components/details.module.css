@@ -1,6 +1,6 @@
 .pokemon_view {
   position: relative;
-  background-color: rgb(31, 200, 83);
+  background-color: rgb(15, 114, 77);
   align-items: center;
   justify-content: center;
   color: white;
@@ -13,6 +13,7 @@
 .pokemon_view img {
   width: 200px;
   height: 200px;
+  justify-content: center;
 }
 
 .pokemon_info {

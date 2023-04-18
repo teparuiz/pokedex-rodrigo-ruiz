@@ -14,8 +14,7 @@ function ModalShiny(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            {" "}
-            <div className="text-center">Shiny </div>
+              <div className="text-center">Shiny </div>
           </Modal.Title>
         </Modal.Header>
 

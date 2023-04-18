@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Card from "../Card/Card";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Pagination from "../Pagination/Pagination";
-import ModalShiny from '../modal/ModalShiny'
+import ModalShiny from "../modal/ModalShiny";
 
 function Home(props) {
   const { itsLogged = false } = props;
@@ -223,19 +223,6 @@ function Home(props) {
                         className="bg-white align-middle"
                         style={{ border: "0" }}
                       >
-                        {/* <button
-                        className="btn btn-secondary"
-                        onClick={() => {
-                          setShiny((prevShinyList) => {
-                            const newShinyList = [...prevShinyList];
-                            newShinyList[index] = !prevShinyList[index];
-                            return newShinyList;
-                          });
-                        }}
-                      >
-                        {shiny[index] ? "Normal" : "Shiny"}
-                      </button> */}
-
                         <button
                           className="btn btn-secondary"
                           onClick={() => {

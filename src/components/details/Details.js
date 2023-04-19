@@ -58,6 +58,7 @@ function Details(props) {
       console.error("Error al obtener los movimientos");
     }
   };
+
   return (
     <div>
       <div className="container">
@@ -88,8 +89,8 @@ function Details(props) {
                 {`Descripción: ${
                   descriptionPokemon?.flavor_text_entries?.map(
                     (item) => item.flavor_text
-                  )[26]
-                || null}`}
+                  )[26] || null
+                }`}
               </p>
             </div>
             <div className={style.pokemon_container}>
@@ -129,9 +130,12 @@ function Details(props) {
                           {moveData?.power || 0}
                         </div>
                         <div className="col-4">
-                          Precisión <br / >{moveData?.accuracy || 0}
+                          Precisión <br />
+                          {moveData?.accuracy || 0}
                         </div>
-                        <div className="col-4">Tipo {moveData?.type?.name || null }</div>
+                        <div className="col-4">
+                          Tipo {moveData?.type?.name || null}
+                        </div>
                       </div>
                       <div className={style.divider_movements}></div>
                     </div>
@@ -139,8 +143,7 @@ function Details(props) {
                 })}
             </div>
           </div>
-          <div>
-          </div>
+          <div></div>
         </div>
       </div>
     </div>

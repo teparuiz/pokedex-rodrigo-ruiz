@@ -129,7 +129,7 @@ function Details(props) {
                           {moveData?.power || 0}
                         </div>
                         <div className="col-4">
-                          Precisión {moveData?.accuracy || 0}
+                          Precisión <br / >{moveData?.accuracy || 0}
                         </div>
                         <div className="col-4">Tipo {moveData?.type?.name || null }</div>
                       </div>

@@ -89,7 +89,7 @@ function Details(props) {
                   descriptionPokemon?.flavor_text_entries?.map(
                     (item) => item.flavor_text
                   )[26]
-                }`}
+                || null}`}
               </p>
             </div>
             <div className={style.pokemon_container}>
@@ -131,7 +131,7 @@ function Details(props) {
                         <div className="col-4">
                           Precisión {moveData?.accuracy || 0}
                         </div>
-                        <div className="col-4">Tipo {moveData?.type?.name}</div>
+                        <div className="col-4">Tipo {moveData?.type?.name || null }</div>
                       </div>
                       <div className={style.divider_movements}></div>
                     </div>

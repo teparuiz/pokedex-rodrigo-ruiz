@@ -9,11 +9,6 @@ function Details(props) {
   const [attackPokemon, setAttackPokemon] = useState([]);
   const { name } = useParams();
 
-  useEffect(() => {
-    _getIndividualPokemon();
-    _getDescription();
-    _getAttack();
-  }, []);
 
   const _getIndividualPokemon = async () => {
     try {
@@ -58,6 +53,12 @@ function Details(props) {
       console.error("Error al obtener los movimientos");
     }
   };
+
+    useEffect(() => {
+    _getIndividualPokemon();
+    _getDescription();
+    _getAttack();
+  }, []);
 
   return (
     <div>
@@ -125,16 +126,16 @@ function Details(props) {
                         </b>
                       </span>
                       <div className="row">
-                        <div className="col-4">
+                        <div className="col-6 col-xl-4">
                           Poder <br />
                           {moveData?.power || 0}
                         </div>
-                        <div className="col-4">
+                        <div className="col-6 col-xl-4">
                           Precisión <br />
                           {moveData?.accuracy || 0}
                         </div>
-                        <div className="col-4">
-                          Tipo {moveData?.type?.name || null}
+                        <div className="col-12 col-xl-4">
+                          Tipo <br /> {moveData?.type?.name || null}
                         </div>
                       </div>
                       <div className={style.divider_movements}></div>

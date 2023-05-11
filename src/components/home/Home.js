@@ -240,7 +240,7 @@ function Home(props) {
             <InfiniteScroll
               dataLength={scrollPokemon.length} // This is important field to render the next data
               next={loadMorePokemon}
-              hasMore={pokemon.length}
+              hasMore={scrollPokemon}
               loader={<h4>Loading...</h4>}
               endMessage={
                 <p style={{ textAlign: "center" }}>

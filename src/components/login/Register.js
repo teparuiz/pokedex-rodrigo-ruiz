@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Input from "../form/Input";
+import Button from "../form/Button";
 
 function Register(props) {
   const { setIsLogged } = props;
@@ -31,6 +33,14 @@ function Register(props) {
       alert("Revisa tus datos");
     }
   };
+
+  const _disabled = () => {
+    let disabled = false;
+    if (!password) return (disabled = true);
+    if (!email) return (disabled = true);
+
+    return disabled;
+  };
   return (
     <>
       <div className="flex flex-col w-full max-w-md px-4 py-8 rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10 text-center">
@@ -40,71 +50,56 @@ function Register(props) {
         <form autoComplete="off">
           <div className="flex flex-col mb-2">
             <div className="flex relative ">
-              <input
-                type="text"
-                id="sign-in-name"
+              <Input
                 name="Nombre"
                 value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-                placeholder="Nombre"
+                onChange={setName}
+                placeholder="Escribe tu nombre"
               />
             </div>
           </div>
           <div className="flex flex-col mb-2">
             <div className="flex relative ">
-              <input
-                type="text"
-                id="sign-in-nickname"
-                name="Alias"
+              <Input
+                name="Usuario"
                 value={nickName}
-                onChange={(e) => {
-                  setNickName(e.target.value);
-                }}
-                placeholder="Nickname"
+                onChange={setNickName}
+                placeholder="Escribe tu usuario"
               />
             </div>
           </div>
           <div className="flex flex-col mb-2">
             <div className="flex relative ">
-              <input
+              <Input
                 type="email"
-                id="email"
                 name="Correo"
                 value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-                placeholder="Correo electrónico"
+                onChange={setEmail}
+                placeholder="Escribe tu correo electrónico"
                 pattern=".+@globex\.com"
-                required
+                required={true}
               />
             </div>
           </div>
           <div className="flex flex-col mb-2">
             <div className="flex relative ">
-              <input
+              <Input
                 type="password"
-                id="sign-in-password"
                 name="Contraseña"
+                placeholder="Escribe tu contraseña"
+                onChange={setPassword}
                 value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-                placeholder="Contraseña"
-                required
+                required={true}
               />
             </div>
           </div>
           <div className="flex w-full mt-2">
-            <button
-              type="submit"
-              className="btn btn-secondary"
+            <Button
               onClick={register}
-            >
-              Registar
-            </button>
+              name="Crear cuenta"
+              icon="person_add_alt"
+              disabled={_disabled()}
+            />
           </div>
           <div>
             <Link to="/login">¿Ya tienes cuenta?</Link>

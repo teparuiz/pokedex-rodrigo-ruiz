@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import Login from '../src/components/login/Login'
-import Home from '../src/components/home/Home'
-import Details from '../src/components/details/Details'
-import Register from '../src/components/login/Register'
+import Login from "../src/components/login/Login";
+import Home from "../src/components/home/Home";
+import Details from "../src/components/details/Details";
+import Register from "../src/components/login/Register";
 
-function App(props) {
-  const [isLogged, setIsLogged] = useState(false)
-     
+import { connect } from "react-redux";
+const App = (props) => {
+  const [isLogged, setIsLogged] = useState(false);
+
   return (
     <div>
       <Router>
@@ -17,27 +18,38 @@ function App(props) {
           <Route
             path="/"
             element={
-              isLogged ?
-                (<Home isLogged={isLogged} setIsLogged={setIsLogged}  />
+              isLogged ? (
+                <Home isLogged={isLogged} setIsLogged={setIsLogged} />
               ) : (
                 <Login isLogged={isLogged} setIsLogged={setIsLogged} />
               )
             }
           />
-          <Route path="/Home" element={<Home isLogged={isLogged} setIsLogged={setIsLogged}  />} />
+          <Route
+            path="/Home"
+            element={<Home isLogged={isLogged} setIsLogged={setIsLogged} />}
+          />
 
-          <Route path="/details/:name" element={<Details isLogged={isLogged} setIsLogged={setIsLogged}  />} />
+          <Route
+            path="/details/:name"
+            element={<Details isLogged={isLogged} setIsLogged={setIsLogged} />}
+          />
           <Route
             path="/Login"
-            element={<Login isLogged={isLogged} setIsLogged={setIsLogged}  />}
+            element={<Login isLogged={isLogged} setIsLogged={setIsLogged} />}
           />
-          <Route path="/Register" 
-          element={<Register isLogged={isLogged} setIsLogged={setIsLogged}   />} />
-        
-          </Routes>
+          <Route
+            path="/Register"
+            element={<Register isLogged={isLogged} setIsLogged={setIsLogged} />}
+          />
+        </Routes>
       </Router>
     </div>
   );
 }
-
-export default App;
+const MapStateToProps = ({ data }) => {
+  return {
+    data,
+  };
+};
+export default connect(MapStateToProps)(App);

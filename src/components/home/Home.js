@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import Card from "../Card/Card";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Pagination from "../Pagination/Pagination";
 import ModalShiny from "../modal/ModalShiny";
+import {connect} from 'react-redux';
+import {GET_POKEMONS} from '../../redux/actions/pokemons';
 
-function Home(props) {
+const Home = (props) => {
   const { itsLogged = false } = props;
   const [pokemon, setPokemon] = useState([]);
   const [scroll, setScroll] = useState(20);
@@ -19,9 +21,25 @@ function Home(props) {
   const [scrollPokemon, setScrollPokemon] = useState([]);
   const [openShiny, setOpenShiny] = useState({ visible: false, data: false });
 
+  const [data, setData] = useState([]);
   const onClose = () => {
     setOpenShiny({ visible: false, data: false });
   };
+
+  const _getData = useCallback(() => {
+    props.GET_POKEMONS(currentPage, limit) // Debes pasar los argumentos necesarios aquí
+      .then((response) => {
+        setData(response);
+      })
+      .catch((err) => {
+       alert(err)
+      });
+  }, [props]);
+
+
+  useEffect(() => {
+_getData(currentPage, limit)
+  }, [])
   const _getPokemon = async (page) => {
     try {
       const newOffset = (page - 1) * limit;
@@ -173,8 +191,7 @@ function Home(props) {
                       </td>
                       <td scope="row" className="align-middle">
                         <Link to={`/details/${item.name}`}>
-                          {item.name.charAt(0).toUpperCase() +
-                            item.name.slice(1)}
+                          <p className="capitalize">{item.name}</p>
                         </Link>
                       </td>
                       <td scope="row" className="align-middle">
@@ -196,10 +213,10 @@ function Home(props) {
                         {item.types.map((type, index) => (
                           <span
                             key={index}
+                            className="capitalize"
                             style={{ marginRight: "5px", display: "block" }}
                           >
-                            {type.type.name.charAt(0).toUpperCase() +
-                              type.type.name.slice(1)}
+                            {type.type.name}
                           </span>
                         ))}
                       </td>
@@ -288,6 +305,12 @@ function Home(props) {
       />
     </>
   );
+};
+
+const MapStateToProps = ({pokemons = []}) => {
+  return {
+    pokemons: pokemons
+  }
 }
 
-export default Home;
+export default connect(MapStateToProps, {GET_POKEMONS})(Home);

@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import style from "../../style/login.module.css";
+import Input from "../form/Input";
+import Button from "../form/Button";
 const Login = (props) => {
   const { isLogged, setIsLogged } = props;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const login = (e) => {
-    e.preventDefault();
+  const login = () => {
     const storedEmail = localStorage.getItem("email");
     const storedPassword = localStorage.getItem("password");
 
@@ -33,32 +34,27 @@ const Login = (props) => {
           <form autoComplete="off">
             <div className="flex flex-col mb-4">
               <div className="col-6">
-                <input
+                <Input
                   type="email"
-                  id="sign-in-email"
                   name="Correo"
                   value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                  placeholder="Correo electrónico"
+                  onChange={setEmail}
+                  placeholder="Escribe tu correo electrónico"
                   pattern=".+@globex\.com"
-                  required
+                  required={true}
                 />
               </div>
             </div>
             <div className="flex flex-col mb-4">
               <div className="col-6">
-                <input
+                {" "}
+                <Input
                   type="password"
-                  id="sign-in-password"
                   name="Contraseña"
+                  placeholder="Escribe tu contraseña"
+                  onChange={setPassword}
                   value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                  placeholder="Contraseña"
-                  required
+                  required={true}
                 />
               </div>
             </div>
@@ -66,13 +62,12 @@ const Login = (props) => {
               className="flex mt-
             4"
             >
-              <button
-                type="submit"
-                className="btn btn-secondary"
+              <Button
                 onClick={login}
-              >
-                Iniciar sesión
-              </button>
+                name="Iniciar sesión"
+                icon="login"
+                className="btn btn-secondary"
+              />
               <div>
                 <Link to="/register">¿No tienes una cuenta?</Link>
               </div>

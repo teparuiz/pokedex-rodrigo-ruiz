@@ -2,7 +2,6 @@
 Comunicación con la API
  */
 import axios from "axios";
-import { API, API_LOCAL } from "./const";
 
 const api = axios.create({});
 
@@ -15,7 +14,7 @@ export const HTTP = (
   return new Promise((resolve, reject) => {
     api({
       method: method,
-      url: `${process.browser ? API : API_LOCAL}${url}`,
+      url: `${url}`,
       [method === "POST" ? "data" : "params"]: {
         ...data,
       },
@@ -27,8 +26,6 @@ export const HTTP = (
         return resolve(data);
       })
       .catch((err) => {
-        if (process.browser && err.response?.data?.status === 403)
-          return (window.location.href = "/account/login");
         return reject(
           err?.response?.data || {
             error: true,

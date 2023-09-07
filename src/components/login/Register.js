@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../form/Input";
 import Button from "../form/Button";
+import { handleError, handleSucess, ValidEmail } from "../../config/utils";
 
 function Register(props) {
   const { setIsLogged } = props;
@@ -11,14 +12,7 @@ function Register(props) {
   const [nickName, setNickName] = useState("");
   const navigate = useNavigate();
 
-  const ValidEmail = (email) => {
-    const valid = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
-    if (valid.test(email)) {
-      return true;
-    } else {
-      alert("Email no válido");
-    }
-  };
+
 
   const register = () => {
     // Guardar los datos del estado en localStorage
@@ -28,9 +22,10 @@ function Register(props) {
       localStorage.setItem("name", name);
       localStorage.setItem("nickName", nickName);
       setIsLogged(false);
+      handleSucess('Cuenta creada con exito')
       navigate("/login");
     } else {
-      alert("Revisa tus datos");
+      handleError("Revisa tus datos");
     }
   };
 

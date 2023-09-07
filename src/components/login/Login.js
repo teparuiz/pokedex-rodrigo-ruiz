@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import style from "../../style/login.module.css";
 import Input from "../form/Input";
 import Button from "../form/Button";
+import { handleError, handleSucess } from "../../config/utils";
 const Login = (props) => {
   const { isLogged, setIsLogged } = props;
   const [email, setEmail] = useState("");
@@ -17,9 +18,9 @@ const Login = (props) => {
     if (itsLogin) {
       setIsLogged(true);
       navigate("/");
-      alert("Inicio de sesión exitoso");
+      handleSucess('Inicio de sesión exitoso')
     } else {
-      alert("Revisa los datos que son incorrectos");
+      handleError("Revisa los datos que son incorrectos");
     }
   };
 

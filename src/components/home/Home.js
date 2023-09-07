@@ -6,6 +6,7 @@ import Pagination from "../Pagination/Pagination";
 import ModalShiny from "../modal/ModalShiny";
 import {connect} from 'react-redux';
 import {GET_POKEMONS} from '../../redux/actions/pokemons';
+import { HTTP } from "../../config/http";
 
 const Home = (props) => {
   const { itsLogged = false } = props;
@@ -22,14 +23,16 @@ const Home = (props) => {
   const [openShiny, setOpenShiny] = useState({ visible: false, data: false });
 
   const [data, setData] = useState([]);
+  const [individualData, setIndividualData] = useState([])
   const onClose = () => {
     setOpenShiny({ visible: false, data: false });
   };
 
   const _getData = useCallback(() => {
-    props.GET_POKEMONS(currentPage, limit) // Debes pasar los argumentos necesarios aquí
+    props.GET_POKEMONS(currentPage, limit)
       .then((response) => {
         setData(response);
+        setTotalPages(Math.ceil(data.count) / limit)
       })
       .catch((err) => {
        alert(err)
@@ -39,34 +42,41 @@ const Home = (props) => {
 
   useEffect(() => {
 _getData(currentPage, limit)
-  }, [])
-  const _getPokemon = async (page) => {
-    try {
-      const newOffset = (page - 1) * limit;
-      const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${newOffset}`
-      );
-      const data = await response.json();
-      setPokemon(data.results);
-      const pokemonUrls = data.results.map(
-        (item) => `https://pokeapi.co/api/v2/pokemon/${item.name}`
-      );
-      const pokemonResponses = await Promise.all(
-        pokemonUrls.map((url) => fetch(url))
-      );
-      const pokemonData = await Promise.all(
-        pokemonResponses.map((response) => response.json())
-      );
-      setPokemonId(pokemonData);
-      setTotalPages(Math.ceil(data.count / limit));
-    } catch (error) {
-      console.error("Error al obtener los datos de los Pokemon", error);
-    }
-  };
+_getIndividualPokemon()
+  }, [individualData])
 
-  useEffect(() => {
-    _getPokemon(currentPage);
-  }, [currentPage]);
+  const _getIndividualPokemon = () => {
+    const uniquePokemon = data?.results?.map((item) => HTTP('GET', `https://pokeapi.co/api/v2/pokemon/${item.name}`).then((response) => 
+    setIndividualData(response))).catch((err) => console.log(err));
+    return uniquePokemon;
+  }
+  
+  // const _getPokemon = async (page) => {
+  //   try {
+  //     const newOffset = (page - 1) * limit;
+  //     const response = await fetch(
+  //       `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${newOffset}`
+  //     );
+  //     const data = await response.json();
+  //     setPokemon(data.results);
+  //     const pokemonUrls = data.results.map(
+  //       (item) => `https://pokeapi.co/api/v2/pokemon/${item.name}`
+  //     );
+  //     const pokemonResponses = await Promise.all(
+  //       pokemonUrls.map((url) => fetch(url))
+  //     );
+  //     const pokemonData = await Promise.all(
+  //       pokemonResponses.map((response) => response.json())
+  //     );
+  //     setPokemonId(pokemonData);
+  //   } catch (error) {
+  //     console.error("Error al obtener los datos de los Pokemon", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   _getPokemon(currentPage);
+  // }, [currentPage]);
 
   const _getScrollPokemon = async (page) => {
     try {
@@ -177,7 +187,7 @@ _getData(currentPage, limit)
                 </tr>
               </thead>
               <tbody>
-                {pokemonId
+                {individualData
                   .filter((item) =>
                     item.name.includes(searchPokemon.toLowerCase())
                   )

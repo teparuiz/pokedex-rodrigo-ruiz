@@ -4,15 +4,16 @@ import Card from "../Card/Card";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Pagination from "../Pagination/Pagination";
 import ModalShiny from "../modal/ModalShiny";
-import {connect} from 'react-redux';
-import {GET_POKEMONS} from '../../redux/actions/pokemons';
+import { connect } from "react-redux";
+import { GET_POKEMONS, GET_ONEPOKEMON } from "../../redux/actions/pokemons";
 import { HTTP } from "../../config/http";
+import {handleError} from '../../config/utils';
 
 const Home = (props) => {
   const { itsLogged = false } = props;
   const [pokemon, setPokemon] = useState([]);
   const [scroll, setScroll] = useState(20);
-  const [limit, setLimit] = useState(5);
+  const [limit, setLimit] = useState(20);
   const [pokemonId, setPokemonId] = useState([]);
   const [searchPokemon, setSearchPokemon] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,34 +24,41 @@ const Home = (props) => {
   const [openShiny, setOpenShiny] = useState({ visible: false, data: false });
 
   const [data, setData] = useState([]);
-  const [individualData, setIndividualData] = useState([])
+  const [individualData, setIndividualData] = useState([]);
   const onClose = () => {
     setOpenShiny({ visible: false, data: false });
   };
 
-  const _getData = useCallback(() => {
-    props.GET_POKEMONS(currentPage, limit)
+  const _getData = () => {
+    props
+      .GET_POKEMONS(currentPage, limit)
       .then((response) => {
         setData(response);
-        setTotalPages(Math.ceil(data.count) / limit)
+        setTotalPages(Math.ceil(data.count) / limit);
       })
       .catch((err) => {
-       alert(err)
+        alert(err);
       });
-  }, [props]);
+  };
 
+  const _getOneData = () => {
+    props.data?.results?.map((item) =>
+      props
+        .GET_ONEPOKEMON(item.name)
+        .then((response) => {
+          setIndividualData(response);
+        })
+        .catch((err) => {
+          handleError(err);
+        })
+    );
+  };
 
   useEffect(() => {
-_getData(currentPage, limit)
-_getIndividualPokemon()
-  }, [individualData])
+    _getData(currentPage, limit);
+    _getOneData();
+  }, []);
 
-  const _getIndividualPokemon = () => {
-    const uniquePokemon = data?.results?.map((item) => HTTP('GET', `https://pokeapi.co/api/v2/pokemon/${item.name}`).then((response) => 
-    setIndividualData(response))).catch((err) => console.log(err));
-    return uniquePokemon;
-  }
-  
   // const _getPokemon = async (page) => {
   //   try {
   //     const newOffset = (page - 1) * limit;
@@ -186,9 +194,9 @@ _getIndividualPokemon()
                   ></th>
                 </tr>
               </thead>
-              <tbody>
+              {/* <tbody>
                 {individualData
-                  .filter((item) =>
+                  ?.filter((item) =>
                     item.name.includes(searchPokemon.toLowerCase())
                   )
                   .map((item, index) => (
@@ -261,7 +269,8 @@ _getIndividualPokemon()
                       </td>
                     </tr>
                   ))}
-              </tbody>
+              </tbody> */}
+              {JSON.stringify((props.data?.results?.map((i) => i.name)))}
             </table>
           ) : (
             <InfiniteScroll
@@ -317,10 +326,12 @@ _getIndividualPokemon()
   );
 };
 
-const MapStateToProps = ({pokemons = []}) => {
+const MapStateToProps = ({ pokemons = [], onePokemon = []}) => {
   return {
-    pokemons: pokemons
-  }
-}
+    data: pokemons,
+    onePokemon: onePokemon,
 
-export default connect(MapStateToProps, {GET_POKEMONS})(Home);
+  };
+};
+
+export default connect(MapStateToProps, { GET_POKEMONS, GET_ONEPOKEMON })(Home);

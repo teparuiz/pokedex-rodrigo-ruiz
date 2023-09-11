@@ -1,6 +1,8 @@
 import { SET_ONEPOKEMON, SET_POKEMON } from "../types";
 
-const pokemons = (state = [], action) => {
+const initialState = [];
+
+const pokemons = (state = initialState, action) => {
   switch (action.type) {
     case SET_POKEMON: {
       const { data } = action;

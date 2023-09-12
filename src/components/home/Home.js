@@ -5,7 +5,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Pagination from "../Pagination/Pagination";
 import ModalShiny from "../modal/ModalShiny";
 import { connect } from "react-redux";
-import { GET_POKEMONS, GET_ONEPOKEMON } from "../../redux/actions/pokemons";
+import { GET_POKEMONS } from "../../redux/actions/pokemons";
+import { GET_ONEPOKEMON } from "../../redux/actions/onePokemon";
 import { HTTP } from "../../config/http";
 import {handleError} from '../../config/utils';
 
@@ -29,35 +30,50 @@ const Home = (props) => {
     setOpenShiny({ visible: false, data: false });
   };
 
+console.log(props.data)
+console.log(props.data.results.map((i) => i.url))
+
+  // const _getData = () => {
+  //   props
+  //     .GET_POKEMONS(currentPage, limit)
+  //     .then((response) => {
+  //       setData(response);
+  //       setTotalPages(Math.ceil(data.count) / limit);
+  //     })
+  //     .catch((err) => {
+  //       alert(err);
+  //     });
+  // };
+
+  // const _getOneData = () => {
+  //   props.data?.results?.map((item) =>
+  //     props
+  //       .GET_ONEPOKEMON(item.name)
+  //       .then((response) => {
+  //         console.log(response)
+  //         setIndividualData(response);
+  //         console.log(individualData)
+  //       })
+  //       .catch((err) => {
+  //         handleError(err);
+  //       })
+  //   );
+  // };
+
   const _getData = () => {
-    props
-      .GET_POKEMONS(currentPage, limit)
-      .then((response) => {
-        setData(response);
-        setTotalPages(Math.ceil(data.count) / limit);
-      })
-      .catch((err) => {
-        alert(err);
-      });
+    props.data.results.map((i) => {
+      HTTP("GET", i.url)
+        .then((response) => setIndividualData(response))
+        .catch((err) => err);
+    });
   };
 
-  const _getOneData = () => {
-    props.data?.results?.map((item) =>
-      props
-        .GET_ONEPOKEMON(item.name)
-        .then((response) => {
-          console.log(response)
-          setIndividualData(response);
-        })
-        .catch((err) => {
-          handleError(err);
-        })
-    );
-  };
+  console.log(individualData)
+
 
   useEffect(() => {
-    _getData(currentPage, limit);
-    _getOneData();
+    // _getData(currentPage, limit);
+    _getData()
   }, []);
 
   // const _getPokemon = async (page) => {

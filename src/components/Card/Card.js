@@ -9,7 +9,7 @@ function Card(props) {
   return (
     <div>
       <div className={style.card_container}>
-        <div className="card mt-2">
+        <div className={style.card}>
           <Link to={`/details/${name}`}>
             {!shiny ? (
               <img

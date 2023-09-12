@@ -24,7 +24,7 @@ const Home = (props) => {
   const [openShiny, setOpenShiny] = useState({ visible: false, data: false });
 
   const [data, setData] = useState([]);
-  const [individualData, setIndividualData] = useState([]);
+  const [individualData, setIndividualData] = useState({});
   const onClose = () => {
     setOpenShiny({ visible: false, data: false });
   };
@@ -46,6 +46,7 @@ const Home = (props) => {
       props
         .GET_ONEPOKEMON(item.name)
         .then((response) => {
+          console.log(response)
           setIndividualData(response);
         })
         .catch((err) => {
@@ -270,7 +271,6 @@ const Home = (props) => {
                     </tr>
                   ))}
               </tbody> */}
-              {JSON.stringify((props.data?.results?.map((i) => i.name)))}
             </table>
           ) : (
             <InfiniteScroll

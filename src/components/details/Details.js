@@ -56,17 +56,13 @@ function Details(props) {
           <div className="d-flex flex-column col-7">
             <div className={style.pokemon_container}>
               <div className="d-flex align-items-center justify-content-between">
-                <p className="align-middle">
-                  <b>
-                    {uniqPokemon?.name?.charAt(0).toUpperCase() +
-                      uniqPokemon?.name?.slice(1)}
-                  </b>
+                <p className="align-middle capitalize">
+                  <b>{uniqPokemon?.name}</b>
                 </p>
                 {uniqPokemon &&
                   uniqPokemon?.types?.map((item, index) => (
-                    <span key={index} className={`${style.type} align-middle`}>
-                      {item.type?.name?.charAt(0).toUpperCase() +
-                        item.type?.name?.slice(1)}
+                    <span key={index} className={`${style.type} align-middle capitalize`}>
+                      {item.type?.name}
                     </span>
                   ))}
               </div>
@@ -88,10 +84,9 @@ function Details(props) {
                   uniqPokemon?.abilities?.map((item, index) => (
                     <span
                       key={index}
-                      className={`${style.type} align-middle d-flex justify-content-between align-items-center`}
+                      className={`${style.type} align-middle d-flex justify-content-between align-items-center capitalize`}
                     >
-                      {item.ability?.name?.charAt(0).toUpperCase() +
-                        item.ability?.name?.slice(1)}
+                      {item.ability?.name}
                     </span>
                   ))}
             </div>
@@ -109,10 +104,9 @@ function Details(props) {
                     );
                     return (
                       <div key={item.move.name}>
-                        <span>
+                        <span className="capitalize">
                           <b>
-                            {item.move?.name?.charAt(0).toUpperCase() +
-                              item.move?.name?.slice(1)}
+                            {item.move?.name}
                           </b>
                         </span>
                         <div className="row">

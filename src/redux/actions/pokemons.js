@@ -3,7 +3,7 @@ import { SET_POKEMON, SET_ONEPOKEMON } from "../types";
 
 export const GET_POKEMONS = (page, limit) => (dispatch, getState) => {
   return new Promise((resolve, reject) => {
-    const newOffset = (page - 1) * limit; // Corrige el cálculo de offset
+    const newOffset = (page - 1) * limit;
     axios({
       method: "GET",
       url: `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${newOffset}`,

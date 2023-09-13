@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { GET_POKEMONS } from "../../redux/actions/pokemons";
 import { GET_ONEPOKEMON } from "../../redux/actions/onePokemon";
 import { HTTP } from "../../config/http";
-import {handleError} from '../../config/utils';
+import { handleError } from "../../config/utils";
 
 const Home = (props) => {
   const { itsLogged = false } = props;
@@ -19,18 +19,19 @@ const Home = (props) => {
   const [searchPokemon, setSearchPokemon] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pokeCard, setPokeCard] = useState(false);
-  const [totalPages, setTotalPages] = useState(Math.ceil(props.data.count) || 0);
+  const [totalPages, setTotalPages] = useState(
+    Math.ceil(props.data.count) || 0
+  );
   const [shiny, setShiny] = useState([]);
   const [scrollPokemon, setScrollPokemon] = useState([]);
-  const [openShiny, setOpenShiny] = useState({ visible: false, data: false });
+  const [visible, setVisible] = useState({ visible: false, data: false });
 
   const [data, setData] = useState([]);
   const [individualData, setIndividualData] = useState([]);
-  const [uri, setUri] = useState([])
+  const [uri, setUri] = useState([]);
   const onClose = () => {
-    setOpenShiny({ visible: false, data: false });
+    setVisible({ visible: false, data: false });
   };
-
 
   const _getData = () => {
     props
@@ -54,7 +55,7 @@ const Home = (props) => {
           return null;
         }
       });
-  
+
       const response = await Promise.all(promises);
       setUri(response);
     } catch (error) {
@@ -62,38 +63,11 @@ const Home = (props) => {
     }
   };
 
-   useEffect(() => {
+  useEffect(() => {
     // _getData(currentPage, limit);
     _getData(currentPage);
     _getDataUri();
   }, [currentPage]);
-
-  // const _getPokemon = async (page) => {
-  //   try {
-  //     const newOffset = (page - 1) * limit;
-  //     const response = await fetch(
-  //       `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${newOffset}`
-  //     );
-  //     const data = await response.json();
-  //     setPokemon(data.results);
-  //     const pokemonUrls = data.results.map(
-  //       (item) => `https://pokeapi.co/api/v2/pokemon/${item.name}`
-  //     );
-  //     const pokemonResponses = await Promise.all(
-  //       pokemonUrls.map((url) => fetch(url))
-  //     );
-  //     const pokemonData = await Promise.all(
-  //       pokemonResponses.map((response) => response.json())
-  //     );
-  //     setPokemonId(pokemonData);
-  //   } catch (error) {
-  //     console.error("Error al obtener los datos de los Pokemon", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   _getPokemon(currentPage);
-  // }, [currentPage]);
 
   const _getScrollPokemon = async (page) => {
     try {
@@ -270,7 +244,7 @@ const Home = (props) => {
                         <button
                           className="btn btn-secondary"
                           onClick={() => {
-                            setOpenShiny({ visible: true, data: item });
+                            setVisible({ visible: true, data: item });
                           }}
                         >
                           Shiny
@@ -282,7 +256,7 @@ const Home = (props) => {
             </table>
           ) : (
             <InfiniteScroll
-              dataLength={scrollPokemon.length} // This is important field to render the next data
+              dataLength={props.data.count} // This is important field to render the next data
               next={loadMorePokemon}
               hasMore={scrollPokemon}
               loader={<h4>Loading...</h4>}
@@ -307,7 +281,7 @@ const Home = (props) => {
                           data={item}
                           shiny={shiny[index]}
                           getShiny={() => {
-                            setOpenShiny({ visible: true, data: item });
+                            setVisible({ visible: true, data: item });
                           }}
                         />
                       </div>
@@ -325,20 +299,15 @@ const Home = (props) => {
           ) : null}
         </div>
       </div>
-      <ModalShiny
-        show={openShiny.visible}
-        onHide={onClose}
-        data={openShiny.data}
-      />
+      <ModalShiny show={visible.visible} onHide={onClose} data={visible.data} />
     </>
   );
 };
 
-const MapStateToProps = ({ pokemons = [], onePokemon = []}) => {
+const MapStateToProps = ({ pokemons = [], onePokemon = [] }) => {
   return {
     data: pokemons,
     onePokemon: onePokemon.data,
-
   };
 };
 

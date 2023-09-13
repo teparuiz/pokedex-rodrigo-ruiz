@@ -14,67 +14,59 @@ const Home = (props) => {
   const { itsLogged = false } = props;
   const [pokemon, setPokemon] = useState([]);
   const [scroll, setScroll] = useState(20);
-  const [limit, setLimit] = useState(20);
+  const [limit, setLimit] = useState(30);
   const [pokemonId, setPokemonId] = useState([]);
   const [searchPokemon, setSearchPokemon] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pokeCard, setPokeCard] = useState(false);
-  const [totalPages, setTotalPages] = useState(0);
+  const [totalPages, setTotalPages] = useState(Math.ceil(props.data.count) || 0);
   const [shiny, setShiny] = useState([]);
   const [scrollPokemon, setScrollPokemon] = useState([]);
   const [openShiny, setOpenShiny] = useState({ visible: false, data: false });
 
   const [data, setData] = useState([]);
-  const [individualData, setIndividualData] = useState({});
+  const [individualData, setIndividualData] = useState([]);
+  const [uri, setUri] = useState([])
   const onClose = () => {
     setOpenShiny({ visible: false, data: false });
   };
 
-console.log(props.data)
-console.log(props.data.results.map((i) => i.url))
-
-  // const _getData = () => {
-  //   props
-  //     .GET_POKEMONS(currentPage, limit)
-  //     .then((response) => {
-  //       setData(response);
-  //       setTotalPages(Math.ceil(data.count) / limit);
-  //     })
-  //     .catch((err) => {
-  //       alert(err);
-  //     });
-  // };
-
-  // const _getOneData = () => {
-  //   props.data?.results?.map((item) =>
-  //     props
-  //       .GET_ONEPOKEMON(item.name)
-  //       .then((response) => {
-  //         console.log(response)
-  //         setIndividualData(response);
-  //         console.log(individualData)
-  //       })
-  //       .catch((err) => {
-  //         handleError(err);
-  //       })
-  //   );
-  // };
 
   const _getData = () => {
-    props.data.results.map((i) => {
-      HTTP("GET", i.url)
-        .then((response) => setIndividualData(response))
-        .catch((err) => err);
-    });
+    props
+      .GET_POKEMONS(currentPage, limit)
+      .then((response) => {
+        setData(response);
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
 
-  console.log(individualData)
+  const _getDataUri = async () => {
+    try {
+      const promises = (props.data?.results || []).map(async (item) => {
+        try {
+          const response = await props.GET_ONEPOKEMON(item.name);
+          return response;
+        } catch (err) {
+          handleError(err);
+          return null;
+        }
+      });
+  
+      const response = await Promise.all(promises);
+      setUri(response);
+    } catch (error) {
+      console.error("Error al obtener datos de URIs:", error);
+    }
+  };
 
-
-  useEffect(() => {
+   useEffect(() => {
     // _getData(currentPage, limit);
-    _getData()
-  }, []);
+    _getData(currentPage);
+    _getDataUri();
+  }, [currentPage]);
 
   // const _getPokemon = async (page) => {
   //   try {
@@ -211,8 +203,8 @@ console.log(props.data.results.map((i) => i.url))
                   ></th>
                 </tr>
               </thead>
-              {/* <tbody>
-                {individualData
+              <tbody>
+                {uri
                   ?.filter((item) =>
                     item.name.includes(searchPokemon.toLowerCase())
                   )
@@ -221,15 +213,15 @@ console.log(props.data.results.map((i) => i.url))
                       key={index}
                       className={index % 2 === 1 ? "table-light" : ""}
                     >
-                      <td scope="row" className="align-middle">
+                      <td className="align-middle">
                         <Link to={`/details/${item.name}`}>{item.id}</Link>
                       </td>
-                      <td scope="row" className="align-middle">
+                      <td className="align-middle">
                         <Link to={`/details/${item.name}`}>
                           <p className="capitalize">{item.name}</p>
                         </Link>
                       </td>
-                      <td scope="row" className="align-middle">
+                      <td className="align-middle">
                         {!shiny[index] ? (
                           <img
                             src={item.sprites.front_default}
@@ -244,7 +236,7 @@ console.log(props.data.results.map((i) => i.url))
                           />
                         )}
                       </td>
-                      <td scope="row" className="align-middle">
+                      <td className="align-middle">
                         {item.types.map((type, index) => (
                           <span
                             key={index}
@@ -255,10 +247,11 @@ console.log(props.data.results.map((i) => i.url))
                           </span>
                         ))}
                       </td>
-                      <td scope="row" className="align-middle">
+                      <td className="align-middle">
                         {item.abilities.map((ability, index) => (
                           <span
                             key={index}
+                            className="capitalize"
                             style={{
                               marginRight: "5px",
                               display: "block",
@@ -266,8 +259,7 @@ console.log(props.data.results.map((i) => i.url))
                               justifyContent: "center",
                             }}
                           >
-                            {ability.ability.name.charAt(0).toUpperCase() +
-                              ability.ability.name.slice(1)}
+                            {ability.ability.name}
                           </span>
                         ))}
                       </td>
@@ -286,7 +278,7 @@ console.log(props.data.results.map((i) => i.url))
                       </td>
                     </tr>
                   ))}
-              </tbody> */}
+              </tbody>
             </table>
           ) : (
             <InfiniteScroll
@@ -326,7 +318,7 @@ console.log(props.data.results.map((i) => i.url))
           )}
           {!pokeCard ? (
             <Pagination
-              totalPages={totalPages}
+              totalPages={totalPages / limit}
               setCurrentPage={setCurrentPage}
               currentPage={currentPage}
             />
@@ -345,7 +337,7 @@ console.log(props.data.results.map((i) => i.url))
 const MapStateToProps = ({ pokemons = [], onePokemon = []}) => {
   return {
     data: pokemons,
-    onePokemon: onePokemon,
+    onePokemon: onePokemon.data,
 
   };
 };

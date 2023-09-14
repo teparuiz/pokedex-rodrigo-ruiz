@@ -40,7 +40,7 @@ const Home = (props) => {
         setData(response);
       })
       .catch((err) => {
-        alert(err);
+        handleError(err);
       });
   };
 
@@ -64,10 +64,12 @@ const Home = (props) => {
   };
 
   useEffect(() => {
-    // _getData(currentPage, limit);
-    _getData(currentPage);
+   if(props.data) {
+    _getData();
     _getDataUri();
-  }, [currentPage]);
+   }
+  }, [props.data]);
+  
 
   const _getScrollPokemon = async (page) => {
     try {

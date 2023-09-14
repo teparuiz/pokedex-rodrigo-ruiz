@@ -3,6 +3,7 @@ import style from "../../style/components/details.module.css";
 import { useParams } from "react-router-dom";
 import Gallery from "../Gallery/Gallery";
 
+
 function Details(props) {
   const [uniqPokemon, setUniqPokemon] = useState([]);
   const [descriptionPokemon, setDescriptionPokemon] = useState([]);

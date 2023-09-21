@@ -9,26 +9,24 @@ import { GET_POKEMONS } from "../../redux/actions/pokemons";
 import { GET_ONEPOKEMON } from "../../redux/actions/onePokemon";
 import { HTTP } from "../../config/http";
 import { handleError } from "../../config/utils";
+import Spinner from "../form/Spinner";
 
 const Home = (props) => {
   const { itsLogged = false } = props;
-  const [pokemon, setPokemon] = useState([]);
-  const [scroll, setScroll] = useState(20);
-  const [limit, setLimit] = useState(30);
-  const [pokemonId, setPokemonId] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [limit, setLimit] = useState(10);
   const [searchPokemon, setSearchPokemon] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pokeCard, setPokeCard] = useState(false);
-  const [totalPages, setTotalPages] = useState(
-    Math.ceil(props.data.count) || 0
-  );
+  const [totalPages, setTotalPages] = useState(0);
   const [shiny, setShiny] = useState([]);
-  const [scrollPokemon, setScrollPokemon] = useState([]);
   const [visible, setVisible] = useState({ visible: false, data: false });
 
   const [data, setData] = useState([]);
-  const [individualData, setIndividualData] = useState([]);
   const [uri, setUri] = useState([]);
+
   const onClose = () => {
     setVisible({ visible: false, data: false });
   };
@@ -38,9 +36,12 @@ const Home = (props) => {
       .GET_POKEMONS(currentPage, limit)
       .then((response) => {
         setData(response);
+        setTotalPages(response.count);
+        setIsLoading(false);
       })
       .catch((err) => {
         handleError(err);
+        setIsLoading(false);
       });
   };
 
@@ -64,68 +65,16 @@ const Home = (props) => {
   };
 
   useEffect(() => {
-   if(props.data) {
-    _getData();
-    _getDataUri();
-   }
+    if (props.data) {
+      _getData();
+      _getDataUri();
+    }
   }, [props.data]);
-  
 
-  const _getScrollPokemon = async (page) => {
-    try {
-      const newOffset = (page - 1) * scroll;
-      const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon?limit=${scroll}&offset=${newOffset}`
-      );
-      const data = await response.json();
-      setPokemon(data.results);
-      const pokemonUrls = data.results.map(
-        (item) => `https://pokeapi.co/api/v2/pokemon/${item.name}`
-      );
-      const pokemonResponses = await Promise.all(
-        pokemonUrls.map((url) => fetch(url))
-      );
-      const pokemonData = await Promise.all(
-        pokemonResponses.map((response) => response.json())
-      );
-      setScrollPokemon(pokemonData.slice(0, scroll));
-    } catch (error) {
-      console.error("Error al obtener los datos de los Pokemon", error);
-    }
-  };
-
-  const loadMorePokemon = async () => {
-    try {
-      const newOffset = scroll;
-      const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon?limit=${scroll}&offset=${newOffset}`
-      );
-      const data = await response.json();
-      const pokemonUrls = data.results.map(
-        (item) => `https://pokeapi.co/api/v2/pokemon/${item.name}`
-      );
-      const pokemonResponses = await Promise.all(
-        pokemonUrls.map((url) => fetch(url))
-      );
-      const pokemonData = await Promise.all(
-        pokemonResponses.map((response) => response.json())
-      );
-      setScrollPokemon((prevScrollPokemon) => [
-        ...prevScrollPokemon,
-        ...pokemonData,
-      ]);
-    } catch (error) {
-      console.error("Error al obtener los datos de los Pokemon", error);
-    }
-  };
-
-  useEffect(() => {
-    _getScrollPokemon();
-  }, []);
+  if (isLoading) return <Spinner />;
 
   return (
     <>
-      {" "}
       <div>
         <div className="container">
           <h1> Pokédex </h1>
@@ -258,19 +207,19 @@ const Home = (props) => {
             </table>
           ) : (
             <InfiniteScroll
-              dataLength={props.data.count} // This is important field to render the next data
-              next={loadMorePokemon}
-              hasMore={scrollPokemon}
+              dataLength={totalPages} // This is important field to render the next data
+              next={uri}
+              hasMore={currentPage < totalPages}
               loader={<h4>Loading...</h4>}
               endMessage={
                 <p style={{ textAlign: "center" }}>
-                  <b>Yay! You have seen it all</b>
+                  <b>Upps!! ya viste todo </b>
                 </p>
               }
             >
               <div className="container-sm">
                 <div className="row">
-                  {scrollPokemon
+                  {uri
                     .filter((item) =>
                       item.name.includes(searchPokemon.toLowerCase())
                     )

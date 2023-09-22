@@ -21,7 +21,7 @@ const Home = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pokeCard, setPokeCard] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
-  const [scrollPokemon, setScrollPokemon] = useState([])
+  const [scrollPokemon, setScrollPokemon] = useState([]);
   const [shiny, setShiny] = useState([]);
   const [visible, setVisible] = useState({ visible: false, data: false });
 
@@ -65,44 +65,42 @@ const Home = (props) => {
     }
   };
 
-
-  const _loadMorePokemon = async () => {
-    try {
-      const promises = (props.data?.results || []).map(async (item) => {
-        try {
-          const response = await props.GET_ONEPOKEMON(item.name);
-          return response;
-        } catch (err) {
-          handleError(err);
-          return null;
-        }
-      });
-  
-      const response = await Promise.all(promises);
-  
-      // Calcular la nueva currentPage y totalPages
-      const newCurrentPage = currentPage + 1; // Incrementar la página actual en 1
-      const newTotalPages = Math.ceil(newCurrentPage * limit / 10); // Calcular el nuevo total de páginas
-  
-      // Actualizar currentPage y totalPages
-      setCurrentPage(newCurrentPage);
-      setTotalPages(newTotalPages);
-  
-      // Agregar los nuevos datos al estado existente en lugar de sobrescribirlo
-      setScrollPokemon((prevState) => [...prevState, ...response]);
-    } catch (error) {
-      console.error("Error al obtener datos de URIs:", error);
-    }
-  };
-  
-  
-
   useEffect(() => {
-    if (props.data) {
-      _getData();
-      _getDataUri();
-    }
-  }, [props.data]);
+    _getData();
+  }, [currentPage, limit]);
+  
+  useEffect(() => {
+    _getDataUri();
+  }, [data]);
+  
+  // const _loadMorePokemon = async () => {
+  //   try {
+  //     const promises = (props.data?.results || []).map(async (item) => {
+  //       try {
+  //         const response = await props.GET_ONEPOKEMON(item.name);
+  //         return response;
+  //       } catch (err) {
+  //         handleError(err);
+  //         return null;
+  //       }
+  //     });
+
+  //     const response = await Promise.all(promises);
+
+  //     // Calcular la nueva currentPage y totalPages
+  //     const newCurrentPage = currentPage + 1; // Incrementar la página actual en 1
+  //     const newTotalPages = Math.ceil(newCurrentPage * limit / 10); // Calcular el nuevo total de páginas
+
+  //     // Actualizar currentPage y totalPages
+  //     setCurrentPage(newCurrentPage);
+  //     setTotalPages(newTotalPages);
+
+  //     // Agregar los nuevos datos al estado existente en lugar de sobrescribirlo
+  //     setScrollPokemon((prevState) => [...prevState, ...response]);
+  //   } catch (error) {
+  //     console.error("Error al obtener datos de URIs:", error);
+  //   }
+  // };
 
   if (isLoading) return <Spinner />;
 
@@ -241,7 +239,7 @@ const Home = (props) => {
           ) : (
             <InfiniteScroll
               dataLength={totalPages} // This is important field to render the next data
-              next={_loadMorePokemon}
+              next={() => alert("hola")}
               hasMore={currentPage < totalPages}
               loader={<h4>Loading...</h4>}
               endMessage={

@@ -71,36 +71,30 @@ const Home = (props) => {
   
   useEffect(() => {
     _getDataUri();
+    _loadMorePokemon()
   }, [data]);
   
-  // const _loadMorePokemon = async () => {
-  //   try {
-  //     const promises = (props.data?.results || []).map(async (item) => {
-  //       try {
-  //         const response = await props.GET_ONEPOKEMON(item.name);
-  //         return response;
-  //       } catch (err) {
-  //         handleError(err);
-  //         return null;
-  //       }
-  //     });
+   const _loadMorePokemon = async () => {
+     try {
+       const promises = (props.data?.results || []).map(async (item) => {
+         try {
+           const response = await props.GET_ONEPOKEMON(item.name);
+           return response;
+         } catch (err) {
+           handleError(err);
+           return null;
+         }
+       });
 
-  //     const response = await Promise.all(promises);
+       const response = await Promise.all(promises);
 
-  //     // Calcular la nueva currentPage y totalPages
-  //     const newCurrentPage = currentPage + 1; // Incrementar la página actual en 1
-  //     const newTotalPages = Math.ceil(newCurrentPage * limit / 10); // Calcular el nuevo total de páginas
+       setScrollPokemon((prevState) => [...prevState, ...response]);
+     } catch (error) {
+       console.error("Error al obtener datos de URIs:", error);
+     }
+   };
 
-  //     // Actualizar currentPage y totalPages
-  //     setCurrentPage(newCurrentPage);
-  //     setTotalPages(newTotalPages);
-
-  //     // Agregar los nuevos datos al estado existente en lugar de sobrescribirlo
-  //     setScrollPokemon((prevState) => [...prevState, ...response]);
-  //   } catch (error) {
-  //     console.error("Error al obtener datos de URIs:", error);
-  //   }
-  // };
+{console.log(data)}
 
   if (isLoading) return <Spinner />;
 
@@ -237,10 +231,11 @@ const Home = (props) => {
               </tbody>
             </table>
           ) : (
+           
             <InfiniteScroll
-              dataLength={totalPages} // This is important field to render the next data
-              next={() => alert("hola")}
-              hasMore={currentPage < totalPages}
+              dataLength={limit} // This is important field to render the next data
+              next={_loadMorePokemon}
+              hasMore={currentPage + 1}
               loader={<h4>Loading...</h4>}
               endMessage={
                 <p style={{ textAlign: "center" }}>

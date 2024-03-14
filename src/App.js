@@ -15,7 +15,7 @@ const App = (props) => {
     <div>
       <Router>
         <Routes>
-          <Route
+          {/* <Route
             path="/"
             element={
               isLogged ? (
@@ -24,7 +24,12 @@ const App = (props) => {
                 <Login isLogged={isLogged} setIsLogged={setIsLogged} />
               )
             }
+          /> */}
+           <Route
+            path="/"
+            element={<Home isLogged={isLogged} setIsLogged={setIsLogged} />}
           />
+          
           <Route
             path="/Home"
             element={<Home isLogged={isLogged} setIsLogged={setIsLogged} />}

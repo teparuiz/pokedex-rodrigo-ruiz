@@ -2,12 +2,12 @@ import React, { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import Card from "../Card/Card";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Pagination from "../Pagination/Pagination";
+// import Pagination from "../Pagination/Pagination";
 import ModalShiny from "../modal/ModalShiny";
 import { connect } from "react-redux";
 import { GET_POKEMONS } from "../../redux/actions/pokemons";
 import { GET_ONEPOKEMON } from "../../redux/actions/onePokemon";
-import { HTTP } from "../../config/http";
+import { Pagination } from "antd";
 import { handleError } from "../../config/utils";
 import Spinner from "../form/Spinner";
 
@@ -68,33 +68,35 @@ const Home = (props) => {
   useEffect(() => {
     _getData();
   }, [currentPage, limit]);
-  
+
   useEffect(() => {
     _getDataUri();
-    _loadMorePokemon()
+    _loadMorePokemon();
   }, [data]);
-  
-   const _loadMorePokemon = async () => {
-     try {
-       const promises = (props.data?.results || []).map(async (item) => {
-         try {
-           const response = await props.GET_ONEPOKEMON(item.name);
-           return response;
-         } catch (err) {
-           handleError(err);
-           return null;
-         }
-       });
 
-       const response = await Promise.all(promises);
+  const _loadMorePokemon = async () => {
+    try {
+      const promises = (props.data?.results || []).map(async (item) => {
+        try {
+          const response = await props.GET_ONEPOKEMON(item.name);
+          return response;
+        } catch (err) {
+          handleError(err);
+          return null;
+        }
+      });
 
-       setScrollPokemon((prevState) => [...prevState, ...response]);
-     } catch (error) {
-       console.error("Error al obtener datos de URIs:", error);
-     }
-   };
+      const response = await Promise.all(promises);
 
-{console.log(data)}
+      setScrollPokemon((prevState) => [...prevState, ...response]);
+    } catch (error) {
+      console.error("Error al obtener datos de URIs:", error);
+    }
+  };
+
+  {
+    console.log(data);
+  }
 
   if (isLoading) return <Spinner />;
 
@@ -231,7 +233,6 @@ const Home = (props) => {
               </tbody>
             </table>
           ) : (
-           
             <InfiniteScroll
               dataLength={limit} // This is important field to render the next data
               next={_loadMorePokemon}
@@ -267,13 +268,23 @@ const Home = (props) => {
               </div>
             </InfiniteScroll>
           )}
-          {!pokeCard ? (
-            <Pagination
-              totalPages={totalPages / limit}
-              setCurrentPage={setCurrentPage}
-              currentPage={currentPage}
-            />
-          ) : null}
+          <div className="mt-5 d-flex justify-content-center mb-5">
+            {!pokeCard ? (
+              // <Pagination
+              //   totalPages={totalPages / limit}
+              //   setCurrentPage={setCurrentPage}
+              //   currentPage={currentPage}
+              // />
+
+              <Pagination
+                total={data.count}
+                showTotal={(total) => `Total ${total} pokémones`}
+                defaultPageSize={10}
+                onChange={setCurrentPage}
+                defaultCurrent={1}
+              />
+            ) : null}
+          </div>
         </div>
       </div>
       <ModalShiny show={visible.visible} onHide={onClose} data={visible.data} />

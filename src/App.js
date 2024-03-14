@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 const App = (props) => {
   const [isLogged, setIsLogged] = useState(false);
 
+
   return (
     <div>
       <Router>
@@ -52,7 +53,8 @@ const App = (props) => {
     </div>
   );
 }
-const MapStateToProps = ({ data }) => {
+const MapStateToProps = ( data ) => {
+
   return {
     data,
   };

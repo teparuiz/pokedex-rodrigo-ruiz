@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useEffect } from "react";
 import style from "../../style/components/details.module.css";
 import { useParams } from "react-router-dom";

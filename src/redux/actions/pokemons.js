@@ -1,7 +1,7 @@
 import axios from "axios";
 import { SET_POKEMON } from "../types";
 
-export const GET_POKEMONS = (page, limit) => (dispatch, getState) => {
+export const GET_POKEMONS = (page, limit) => (dispatch) => {
   return new Promise((resolve, reject) => {
     const newOffset = (page - 1) * limit;
     axios({

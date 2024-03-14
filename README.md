@@ -1,61 +1,36 @@
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Pokédex - README
+## Getting Started
 
-## Descripción del Proyecto
-La Pokédex es una aplicación web en desarrollo diseñada para ayudarte a explorar y aprender sobre los Pokémon. Inicialmente creado como parte de una prueba técnica, el proyecto se ha convertido en un laboratorio de aprendizaje continuo donde se están implementando diversas características emocionantes.
+First, run the development server:
 
-## Enlace
-https://pokedex-rodrigo-ruiz.vercel.app/
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-## Características Actuales
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### 1. Registro e Inicio de Sesión
-- La aplicación permite a los usuarios registrarse y luego iniciar sesión.
-- La autenticación funciona a nivel local en el navegador, lo que garantiza la privacidad de los datos del usuario.
+You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-### 2. Lista de Pokémon en Formato de Tabla
-- Los usuarios pueden explorar una lista de Pokémon en formato de tabla.
-- La tabla muestra información básica sobre cada Pokémon, como su nombre y tipo.
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-### 3. Scroll Infinito en Vista Móvil
-- Para mejorar la experiencia del usuario en dispositivos móviles, se ha implementado el scroll infinito.
-- Esto permite a los usuarios desplazarse continuamente a través de la lista de Pokémon sin tener que cargar toda la lista de una vez.
+## Learn More
 
-## Próximas Mejoras
+To learn more about Next.js, take a look at the following resources:
 
-El proyecto de la Pokédex está en constante desarrollo, y se planean las siguientes mejoras:
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-### 1. Implementación de Redux
-- Se utilizará Redux para administrar el estado de la aplicación y obtener datos de Pokémon de manera más eficiente y organizada.
-- Esto mejorará la escalabilidad y el rendimiento de la aplicación.
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-### 2. Mejora y Separación de Componentes
-- Se llevará a cabo una revisión exhaustiva del código para mejorar la legibilidad y la organización.
-- Los componentes se separarán de manera más clara y se optimizarán para una mejor reutilización.
+## Deploy on Vercel
 
-### 3. Funcionalidades Adicionales
-- Se planea agregar nuevas funcionalidades a la Pokédex, como la capacidad de buscar Pokémon por nombre o tipo.
-- También se considerará la integración de datos adicionales, como las estadísticas de combate y las habilidades de los Pokémon.
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-## Contribuciones
-¡Las contribuciones a este proyecto son bienvenidas! Si tienes ideas para nuevas características o mejoras, siéntete libre de crear problemas o solicitudes de extracción en el repositorio de GitHub.
-
-## Requisitos de Desarrollo
-- Node.js y npm deben estar instalados en tu máquina.
-- Clona este repositorio y ejecuta `npm install` para instalar las dependencias necesarias.
-- Para ejecutar la aplicación, usa `npm start`.
-
-## Tecnologías Utilizadas
-- React.js
-- Redux (próximamente)
-- HTML y CSS
-- JavaScript
-
-## Licencia
-Este proyecto se encuentra bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para obtener más detalles.
-
-<<<<<<< HEAD
-¡Diviértete explorando el mundo de los Pokémon con la Pokédex!
-=======
-¡Diviértete explorando el mundo de los Pokémon con la Pokédex!
->>>>>>> origin
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

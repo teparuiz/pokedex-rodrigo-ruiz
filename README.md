@@ -54,4 +54,8 @@ El proyecto de la Pokédex está en constante desarrollo, y se planean las sigui
 ## Licencia
 Este proyecto se encuentra bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para obtener más detalles.
 
+<<<<<<< HEAD
 ¡Diviértete explorando el mundo de los Pokémon con la Pokédex!
+=======
+¡Diviértete explorando el mundo de los Pokémon con la Pokédex!
+>>>>>>> origin
